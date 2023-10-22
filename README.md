@@ -23,10 +23,12 @@ In this homework, I installed the Arduino IDE, created a private GitHub reposito
 For this assignment, I tried controlling an RGB LED using three potentiometers with Arduino, in order to use each potentiometer to independently control the intensity of the Red, Green, and Blue channels of the RGB LED.
 
 I used the following components: 
+<pre>
 > one RGB LED
 > three potentiometers
 > three resistors 
 > wires to set up the connections. Note that dark colors - blue and black - were used for minus and bright colors - red and yellow mostly - for plus.
+</pre>
 
 I read the analog values from each potentiometer using Arduino and then mapped those values to control the respective LED channels.
 
