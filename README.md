@@ -35,3 +35,14 @@ I included the code used for the project in the homework2_RGB folder, and a pict
 ![Setup Homework 1](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/51d724ed-13fb-4ef1-9c93-123c39966926)
 
 I have additionally added a link to a video showing that the setup is indeed working, which can be viewed at https://youtu.be/PtYLPSejM6A?si=s0xpZvtWt_mFTpGi.
+
+## Homework 3
+For this homework, I've built a 3-floor elevator control system. There are three LEDs, each representing a floor, with the current floor's LED illuminated. An additional LED indicates the elevator's state, blinking during movement and remaining steady when the elevator is stationary. Three buttons simulate call buttons on the floors. When pressed, the elevator moves towards the corresponding floor after a short delay.
+The buzzer produces distinct sounds when the elevator arrives at a floor and when the doors are closing or it's in motion.
+
+If the elevator is already at the desired floor, pressing the button for that floor does nothing. Otherwise, it waits for the doors to close before moving. If it's already in motion, it stacks the decision until it reaches the first programmed floor, opens the doors, waits, and then closes them.
+
+I have attached a picture:
+![Elevator](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/d0718fbf-8ed2-443b-80fd-00e023bb3c60)
+
+And the link to a video showcasing functionality: https://youtu.be/atauKeMnFAM
