@@ -1,12 +1,12 @@
-const int floorleds[] = {8, 9, 10};
-const int Motion_Sensor_Pin = 11;
-const int floor_buttons[] = {A0, A1, A2};
-const int Speaker_Pin = 13;
+const int floorleds[] = {8, 9, 10}; //array of leds
+const int Motion_Sensor_Pin = 11; //the led that turns on when moving like a motion sensor
+const int floor_buttons[] = {A0, A1, A2}; //array of buttons
+const int Speaker_Pin = 13; //elevator speaker
 
-int currentFloor = 0;
+int currentFloor = 0; // we start on floor 0 just so that the 1st Floor led will turn on in the beginning
 int targetFloor = 1;
 bool elevatorMoving = false;
-bool doorsClosed = true;
+bool doorsClosed = true; // the elevator waits for the doors to close
 bool stationaryElevator = true;
 unsigned long lastButtonPressTime = 0;
 const unsigned long buttonDebounceDelay = 100;
@@ -32,7 +32,7 @@ void loop() {
     if (digitalRead(floor_buttons[i]) == LOW && (currentTime - lastButtonPressTime) > buttonDebounceDelay) {
       lastButtonPressTime = currentTime;
       if (i + 1 != currentFloor && doorsClosed) {
-        targetFloor = i + 1;
+        targetFloor = i + 1; //we start the elevator and go to the next floor
         if (!elevatorMoving) {
           startElevator();
         }
@@ -42,12 +42,12 @@ void loop() {
 
   if (elevatorMoving) {
     if (currentFloor == targetFloor) {
-      stopElevator();
+      stopElevator(); //we reached the destionation
     } else {
-      buzzSpeaker(400);
-      setFloorIndicators(currentFloor);
+      buzzSpeaker(400); //make a sound when moving
+      setFloorIndicators(currentFloor); //turn on the corresponding led
       stationaryElevator = false;
-      blinkMotionLight();
+      blinkMotionLight(); //make the motion led blink
     }
   } else {
     digitalWrite(Motion_Sensor_Pin, LOW);
@@ -69,10 +69,10 @@ void startElevator() {
   while (currentFloor != targetFloor) {
     unsigned long currentTime = millis();
     if (currentFloor < targetFloor and (currentTime - prevMillis) >= changeDelay) {
-      currentFloor++;
+      currentFloor++;//we go up a floor
       prevMillis = currentTime;
     } else if (currentFloor > targetFloor and (currentTime - prevMillis) >= changeDelay) {
-      currentFloor--;
+      currentFloor--;//we go down a floor
       prevMillis = currentTime;
     }
     setFloorIndicators(currentFloor);
