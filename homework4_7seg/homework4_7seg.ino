@@ -42,39 +42,35 @@ void setup() {
   }
   pinMode(switchPin, INPUT_PULLUP);
   if (CommonAnode == true) {
-    ledState = !ledState;
+    ledState = !ledState; // revert the setuo for common anode
   }
   for (int i = 0; i < numSegments; i++) {
     digitalWrite(segmentsPins[i], LOW);
   }
-  activeSegmentPin = segmentDPPin;
+  activeSegmentPin = segmentDPPin; //starting from db
   digitalWrite(activeSegmentPin, HIGH);
 }
 
 void loop() {
-  xJoystickValue = analogRead(joyXPin);
+  xJoystickValue = analogRead(joyXPin); //read the movement of the joystick on the X Y axis
   yJoystickValue = analogRead(joyYPin);
-  if (ActiveSegon_off == true) {
-    OnOff(activeSegmentPin, lastONOFFMillis, ONOFFInterval);
-  } 
-  else 
-    digitalWrite(activeSegmentPin, HIGH);
+
 
   if (xJoystickValue < minJoystickThreshold && !isJoystickMoved) {
-    activeSegmentPin = nextSegment(activeSegmentPin, 'L');
+    activeSegmentPin = nextSegment(activeSegmentPin, 'L'); //if it moved on the X axis to the left we go to that segment
     isJoystickMoved = true;
   } 
   else if (xJoystickValue > maxJoystickThreshold && !isJoystickMoved) {
-    activeSegmentPin = nextSegment(activeSegmentPin, 'R');
+    activeSegmentPin = nextSegment(activeSegmentPin, 'R'); //if it moved on the X axis to the right we go to that segment
     isJoystickMoved = true;
   }
 
   if (yJoystickValue < minJoystickThreshold && !isJoystickMoved) {
-    activeSegmentPin = nextSegment(activeSegmentPin, 'U');
+    activeSegmentPin = nextSegment(activeSegmentPin, 'U'); //if it moved on the Y axis up we go to that segment
     isJoystickMoved = true;
   } 
   else if (yJoystickValue > maxJoystickThreshold && !isJoystickMoved) {
-    activeSegmentPin = nextSegment(activeSegmentPin, 'D');
+    activeSegmentPin = nextSegment(activeSegmentPin, 'D');//if it moved on the Y axis down we go to that segment
     isJoystickMoved = true;
   }
 
@@ -84,16 +80,16 @@ void loop() {
   buttonState = digitalRead(switchPin);
   if (buttonState != lastButtonState) {
     if (buttonState == LOW) {
-      buttonPressTime = millis();
+      buttonPressTime = millis(); // if the button was pressed we measure how long it is pressed using millis
     } 
     else {
-      if (millis() - buttonPressTime < 1000) {
+      if (millis() - buttonPressTime < 1000) {//if it was a short press
         isButtonPressed = !isButtonPressed;
-        ActiveSegon_off = false;
+        ActiveSegon_off = false; //the segment should be on, without flickering
       } 
       else {
         for (int i = 0; i < numSegments; i++)
-          digitalWrite(segmentsPins[i], LOW);
+          digitalWrite(segmentsPins[i], LOW);//reset to the db pin
         activeSegmentPin = segmentDPPin;
         ActiveSegon_off = true;
         digitalWrite(activeSegmentPin, HIGH);
@@ -103,15 +99,16 @@ void loop() {
   }
 
   if (ActiveSegon_off == true) {
-    OnOff(activeSegmentPin, lastONOFFMillis, ONOFFInterval);
+    OnOff(activeSegmentPin, lastONOFFMillis, ONOFFInterval); //if the segment is selected and it should be flickering we do that
   } 
-  else  digitalWrite(activeSegmentPin, HIGH);
+  else 
+    digitalWrite(activeSegmentPin, HIGH); // otherwise (if the button was pressed) just let the segment be on
 }
 
 void OnOff(int segment, unsigned long &lastONOFFMillis, unsigned long ONOFFInterval) {
   unsigned long currentMillis = millis();
   if (currentMillis - lastONOFFMillis >= ONOFFInterval) {
-    lastONOFFMillis = currentMillis;
+    lastONOFFMillis = currentMillis; // measure how long to stay on and off
     int ledState = digitalRead(segment);
     digitalWrite(segment, !ledState);
   }
@@ -119,9 +116,9 @@ void OnOff(int segment, unsigned long &lastONOFFMillis, unsigned long ONOFFInter
 
 int nextSegment(int segment, char dir) {
   if (ActiveSegon_off == true)
-    digitalWrite(activeSegmentPin, LOW);
+    digitalWrite(activeSegmentPin, LOW); //keep the segmennt off if we moved and the button wasn't pressed
   else ActiveSegon_off = true;
-
+  //Select the specific segmnent for each possible movement
   if (dir == 'U') {
     if (segment == segmentsPins[1] || segment == segmentsPins[5] || segment == segmentsPins[6]) {
       return segmentsPins[0];
@@ -129,7 +126,7 @@ int nextSegment(int segment, char dir) {
     else if (segment == segmentsPins[2] || segment == segmentsPins[3] || segment == segmentsPins[4]) {
       return segmentsPins[6];
     } 
-    else return segment;
+    else return segment; // if there is no neighbour segment, we stay on the current one
 
   } else if (dir == 'D') {
     if (segment == segmentsPins[0] || segment == segmentsPins[1] || segment == segmentsPins[5]) {
