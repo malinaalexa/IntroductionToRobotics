@@ -24,11 +24,10 @@ In this homework, I installed the Arduino IDE, created a private GitHub reposito
 </details>
 
 <details>
-<summary>
-Homework 2
-For this assignment, I tried controlling an RGB LED using three potentiometers with Arduino, in order to use each potentiometer to independently control the intensity of the Red, Green, and Blue channels of the RGB LED. </summary>
-
+<summary>Homework 2</summary>
 <br>
+For this assignment, I tried controlling an RGB LED using three potentiometers with Arduino, in order to use each potentiometer to independently control the intensity of the Red, Green, and Blue channels of the RGB LED.
+
 I used the following components: 
 - one RGB LED
 - three potentiometers
@@ -58,13 +57,12 @@ And the link to a video showcasing functionality: https://youtu.be/atauKeMnFAM
 </details>
 
 <details>
-<summary>
-Homework 4</summary>
+<summary>Homework 4</summary>
 <br>
 For this homework, I used a 7 segment display and a joystick, in order to "draw" on the display. The segment flickers when selected. When pressing the button shortly, the segment state remains on. When long pressing, it resets the display and it starts again from the dot segment.
-</details>
 
 I attached a picture of the setup:
 ![7 Segment](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/48b36a5b-3087-4b5c-85c0-7bc86cc35414)
 
 And a video for demonstrating functionality: https://youtu.be/QS-kTNX2JGU
+</details>
