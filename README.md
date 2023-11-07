@@ -46,3 +46,11 @@ I have attached a picture:
 ![Elevator](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/d0718fbf-8ed2-443b-80fd-00e023bb3c60)
 
 And the link to a video showcasing functionality: https://youtu.be/atauKeMnFAM
+
+## Homework 4 
+For this homework, I used a 7 segment display and a joystick, in order to "draw" on the display. The segment flickers when selected. When pressing the button shortly, the segment state remains on. When long pressing, it resets the display and it starts again from the dot segment.
+
+I attached a picture of the setup:
+![7 Segment](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/e6bf53f7-730a-426c-a66a-a8fd3d7e1058)
+
+And a video for demonstrating functionality: https://youtu.be/QS-kTNX2JGU
