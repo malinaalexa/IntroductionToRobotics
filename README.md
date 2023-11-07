@@ -15,9 +15,12 @@ Welcome to Introduction to Robotics laboratory Repository. I'm Malina-Alexa Stei
      _)(  )(_
     `---''---`
 </pre>
-   
+<details>
+<summary>
 ## Homework 1
 In this homework, I installed the Arduino IDE, created a private GitHub repository named "IntroductionToRobotics", granted access to specified users, and provided an informative repository description.
+</summary>
+</details>
 
 ## Homework 2
 For this assignment, I tried controlling an RGB LED using three potentiometers with Arduino, in order to use each potentiometer to independently control the intensity of the Red, Green, and Blue channels of the RGB LED.
