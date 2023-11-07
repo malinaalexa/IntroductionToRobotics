@@ -16,10 +16,11 @@ Welcome to Introduction to Robotics laboratory Repository. I'm Malina-Alexa Stei
     `---''---`
 </pre>
 <details>
-In this homework, I installed the Arduino IDE, created a private GitHub repository named "IntroductionToRobotics", granted access to specified users, and provided an informative repository description.
 <summary>
-## Homework 1
+Homework 1
 </summary>
+<br>
+In this homework, I installed the Arduino IDE, created a private GitHub repository named "IntroductionToRobotics", granted access to specified users, and provided an informative repository description.
 </details>
 
 ## Homework 2
