@@ -66,3 +66,18 @@ I attached a picture of the setup:
 
 And a video for demonstrating functionality: https://youtu.be/QS-kTNX2JGU
 </details>
+
+<details>
+<summary>hHomework 5</summary>
+<br>
+This code features a stopwatch with lap timer using a 4-digit 7-segment display and three buttons. 
+Functionality:
+Start/Pause Button: A push toggles the timer.
+Reset Button: First press resets the stopwatch; Second press clears lap times.
+Lap Button: Records lap times during an active timer, displayed sequentially.
+
+I included a video: https://youtu.be/NYT6IrKa1ms
+
+And a photo: ![StopWatch](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/80e127a0-d7e9-4794-9245-7b84c9776b3a)
+
+</details>
