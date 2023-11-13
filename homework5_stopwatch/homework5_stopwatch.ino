@@ -1,68 +1,72 @@
 // Define connections to the shift register and buttons
-const int storagePin = 11; // Latch pin for the shift register
-const int clockPin = 10;   // Clock pin for the shift register
-const int dataPin = 12;    // Data pin for the shift register
-const int segD1 = 4;       // Segment Digit 1
-const int segD2 = 5;       // Segment Digit 2
-const int segD3 = 6;       // Segment Digit 3
-const int segD4 = 7;       // Segment Digit 4
-const int startPauseBtn = A0; // Start/Pause button
-const int resetBtn = A1;       // Reset button
-const int lapBtn = A2;         // Lap button
+const int latchPin = 11;
+const int clockPin = 10;
+const int dataPin = 12;
+const int segD1 = 4;
+const int segD2 = 5;
+const int segD3 = 6;
+const int segD4 = 7;
+const int startPauseButton = A0;
+const int resetButton = A1;
+const int lapButton = A2;
 
-int displayDigits[] = {segD1, segD2, segD3, segD4}; // Array of display digit pins
-const int displayCount = 4;                          // Number of display digits
-const int encodingsNumber = 16;                      // Number of possible encodings
-byte byteEncodings[encodingsNumber] = {B11111100, B01100000, B11011010, B11110010, B01100110, B10110110, B10111110, B11100000, B11111110, B11110110, B11101110, B00111110, B10011100, B01111010, B10011110, B10001110};
+int displayDigits[] = { segD1, segD2, segD3, segD4 };
+const int displayCount = 4;
+const int encodingsNumber = 16;
+byte byteEncodings[encodingsNumber] = { B11111100, B01100000, B11011010, B11110010, B01100110, B10110110, B10111110, B11100000, B11111110, B11110110, B11101110, B00111110, B10011100, B01111010, B10011110, B10001110 };
 
-unsigned long lastIncrement = 0; // Last time the number was incremented
-unsigned long delayCount = 100;  // Delay for smoother operation
-unsigned long number = 0;        // Current displayed number
+unsigned long lastIncrement = 0;
+unsigned long delayCount = 100; 
+unsigned long number = 0;
 
-int lapTimes[4] = {0, 0, 0, 0}; // Array to store lap times
-int lapIndex = 0;               // Index for the current lap time
-bool timerRunning = false;       // Flag indicating whether the timer is running
-bool pauseMode = false;          // Flag indicating whether the timer is in pause mode
-bool lastReset = true;           // Last state of the reset button
+int lapTimes[4] = { 0, 0, 0, 0 };
+int lapIndex = 0;
+bool timerRunning = false;
+bool pauseMode = false;
+int wasreset = false;
 
 void setup() {
-  pinMode(storagePin, OUTPUT);
+  // Set up pins for shift register and display digits
+  pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
-
+  
   for (int i = 0; i < displayCount; i++) {
     pinMode(displayDigits[i], OUTPUT);
     digitalWrite(displayDigits[i], LOW);
   }
 
-  pinMode(startPauseBtn, INPUT_PULLUP);
-  pinMode(resetBtn, INPUT_PULLUP);
-  pinMode(lapBtn, INPUT_PULLUP);
+  // Set up buttons with pull-up resistors
+  pinMode(startPauseButton, INPUT_PULLUP);
+  pinMode(resetButton, INPUT_PULLUP);
+  pinMode(lapButton, INPUT_PULLUP);
 
+  // Initialize serial communication for debugging
   Serial.begin(9600);
 }
 
 void loop() {
-  handleButtons(); // Check and handle button presses
+  // Check and handle button presses
+  handleButtons();
 
-  // Increment the number if the timer is running and not in pause mode
+  // Increment the timer if running and not in pause mode
   if (timerRunning && !pauseMode && millis() - lastIncrement > delayCount) {
     number++;
-    number %= 10000; // Limit the number to four digits
+    number %= 10000;
     lastIncrement = millis();
   }
-  writeNumber(number); // Display the current number
-
-  // Display lap time if in pause mode and the reset button was just released
-  if (lastReset == false && pauseMode) {
+  
+  // Display the current number on the 7-segment display
+  writeNumber(number);
+  /*if (pauseMode && wasreset == false) {
     writeNumber(lapTimes[lapIndex]);
-  }
+  } this part of the code is broken*/ 
 }
 
 void handleButtons() {
-  // Start/Pause button logic
-  if (digitalRead(startPauseBtn) == LOW) {
-    delay(50); // Debounce
+  // Handle start/pause button press
+  if (digitalRead(startPauseButton) == LOW) {
+    delay(50); // debounce
     if (!timerRunning) {
       timerRunning = true;
       pauseMode = false;
@@ -70,71 +74,73 @@ void handleButtons() {
       timerRunning = false;
       pauseMode = true;
     }
-    while (digitalRead(startPauseBtn) == LOW)
-      ; // Wait for button release
+    while (digitalRead(startPauseButton) == LOW)
+      ; // wait for button release
   }
 
-  // Reset button logic
+  // Handle reset button press when the timer is not running
   if (!timerRunning) {
-    if (digitalRead(resetBtn) == LOW) {
-      delay(50); // Debounce
-      while (digitalRead(resetBtn) == LOW)
-        ; // Wait for button release
+    if (digitalRead(resetButton) == LOW) {
+      delay(50); // debounce
+      while (digitalRead(resetButton) == LOW)
+        ; // wait for button release
 
-      lastReset = !lastReset; // Toggle the last reset state
-
-      // Reset lap index and lap times if reset button is pressed
-      if (lastReset == true) {
-        lapIndex = 0;
-        memset(lapTimes, 0, sizeof(lapTimes));
-        pauseMode = false;
-      }
-
+      // Reset the timer and lap times
+      wasreset = true;
       number = 0;
+      lapIndex = 0;
+      memset(lapTimes, 0, sizeof(lapTimes));
       timerRunning = false;
+      pauseMode = false;
       writeNumber(number); // Reset the display to "0000"
     }
   }
 
-  // Lap button logic
-  if (digitalRead(lapBtn) == LOW && timerRunning && !pauseMode) {
-    delay(50); // Debounce
-    // Save lap time and update lap index
+  // Handle lap button press during the running timer and not in pause mode
+  if (digitalRead(lapButton) == LOW && timerRunning && !pauseMode) {
+    delay(50); // debounce
+    // Save lap time
     lapTimes[lapIndex] = number;
     lapIndex = (lapIndex + 1) % 4;
-    writeNumber(lapTimes[lapIndex]); // Display the current lap time
-    while (digitalRead(lapBtn) == LOW)
-      ; // Wait for button release
+    while (digitalRead(lapButton) == LOW)
+      ; // wait for button release
+  } else if (digitalRead(lapButton) == LOW && pauseMode) {
+    delay(50); // debounce
+    // Cycle through lap times in pause mode
+    lapIndex = (lapIndex + 1) % 4;
+    while (digitalRead(lapButton) == LOW)
+      ; // wait for button release
   }
 }
 
 void writeReg(int digit) {
-  digitalWrite(storagePin, LOW);
+  // Write a digit to the shift register
+  digitalWrite(latchPin, LOW);
   shiftOut(dataPin, clockPin, MSBFIRST, digit);
-  digitalWrite(storagePin, HIGH);
+  digitalWrite(latchPin, HIGH);
 }
 
 void activateDisplay(int displayNumber) {
-  // Activate a specific display digit
+  // Activate a specific 7-segment display
   for (int i = 0; i < displayCount; i++) {
     digitalWrite(displayDigits[i], HIGH);
   }
   digitalWrite(displayDigits[displayNumber], LOW);
 }
 
-void writeNumber(int num) {
-  int currentNum = num;
+void writeNumber(int number) {
+  // Display a 4-digit number on the 7-segment display
+  int currentNumber = number;
   int displayDigit = 3; // Start with the least significant digit
   int lastDigit = 0;
 
-  // Loop through each display digit
   for (int i = 0; i < displayCount; i++) {
-    lastDigit = currentNum % 10;
+    lastDigit = currentNumber % 10;
     activateDisplay(displayDigit);
     writeReg(byteEncodings[lastDigit]);
     delay(0); // A delay can be increased to visualize multiplexing
     displayDigit--;
-    currentNum /= 10;
+    currentNumber /= 10;
     writeReg(B00000000); // Clear the register to avoid ghosting
   }
 }
