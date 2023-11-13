@@ -68,7 +68,7 @@ And a video for demonstrating functionality: https://youtu.be/QS-kTNX2JGU
 </details>
 
 <details>
-<summary>hHomework 5</summary>
+<summary>Homework 5</summary>
 <br>
 This code features a stopwatch with lap timer using a 4-digit 7-segment display and three buttons. 
 Functionality:
