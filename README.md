@@ -94,6 +94,11 @@ ERROR 404 OOPSIE was too lazy to do it
 <br>
 For this homework, I tried remaking the classic bomberman game. The player is a dot blinking slowly, the walls do not blink and can be destroyed by bombs that blink fast and destroy one block up, down, left and right. The player moves with a joystick and pressing the joystick, places a bomb on the position of the player, while the player is moved on the nearest empty block.
 
+The player starts from the upper left corner and the neighbour blocks never get walls generated on them, so that the player doesn't get stuck. The walls are generated randomly.
+
+DISCLAIMER:
+MOST of the code is made as the example from the laboratory, since it was very easy to understand and a good starting base.
+
 I included a video: https://youtu.be/RIYiJvlezsM
 
 And a photo: ![Bomberman](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/1765a723-88a7-475b-a340-c8a1a083b263)
