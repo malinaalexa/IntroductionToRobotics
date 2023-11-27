@@ -81,3 +81,20 @@ I included a video: https://youtu.be/NYT6IrKa1ms
 And a photo: ![StopWatch](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/80e127a0-d7e9-4794-9245-7b84c9776b3a)
 
 </details>
+
+<details>
+<summary>Homework 6</summary>
+<br>
+ERROR 404 OOPSIE was too lazy to do it
+   
+</details>
+
+<details>
+<summary>Homework 7</summary>
+<br>
+For this homework, I tried remaking the classic bomberman game. The player is a dot blinking slowly, the walls do not blink and can be destroyed by bombs that blink fast and destroy one block up, down, left and right. The player moves with a joystick and pressing the joystick, places a bomb on the position of the player, while the player is moved on the nearest empty block.
+
+I included a video: https://youtu.be/RIYiJvlezsM
+
+And a photo: ![Bomberman](https://github.com/malinaalexa/IntroductionToRobotics/assets/104028370/1765a723-88a7-475b-a340-c8a1a083b263)
+</details>
